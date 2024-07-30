@@ -1,0 +1,12 @@
+# Dependency directories
+node_modules/
+
+# IDE folders
+.idea/
+.vscode/
+
+# Distribution/output directories
+dist/
+
+# Firebase cache directories
+/**/.firebase/

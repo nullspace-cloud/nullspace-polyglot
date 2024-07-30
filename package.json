@@ -1,0 +1,65 @@
+{
+  "name": "nullspace-polyglot",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "author": "NullSpace",
+  "homepage": "https://nullspace.cloud/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nullspace-cloud/nullspace-polyglot.git"
+  },
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "dev": "rollup -c ./rollup.config.js -w",
+    "build": "rollup -c ./rollup.config.js",
+    "deploy": "echo 'No deploy script specified!' && exit 1"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint-plugin-unused-imports": "^3.2.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "rollup-plugin-ts": "^3.4.5",
+    "typescript": "^5.5.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "unused-imports"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "varsIgnorePattern": "^_",
+          "args": "after-used",
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": "off",
+      "unused-imports/no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "warn"
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 120,
+    "tabWidth": 4,
+    "arrowParens": "avoid"
+  }
+}
