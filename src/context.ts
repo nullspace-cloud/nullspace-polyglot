@@ -8,6 +8,7 @@
  * @field validatedLanguages a list of ISO639-1 two-letter code names of all human validated languages
  * @field companyName the name of the company, used to create more tailored system messages
  * @field companyDescription the name of the company, used to create more tailored system messages with the form: "...working for a company called [companyName]. [companyDescription]"
+ * @field fillerWord true if terms in the language files contain the placeholder '%s' for dynamic strings
  */
 export const DEFAULT_CONTEXT = {
     langDir: "./src/langs/",
@@ -16,4 +17,5 @@ export const DEFAULT_CONTEXT = {
     validatedLanguages: [],
     companyName: "",
     companyDescription: "",
+    fillerWord: true,
 }

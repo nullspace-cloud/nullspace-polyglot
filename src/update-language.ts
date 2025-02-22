@@ -29,6 +29,7 @@ interface Updates {
     baseLanguage?: string
     model?: string
     modelTemperature?: number
+    fillerWord?: boolean
 }
 
 /**
@@ -168,9 +169,13 @@ You must provide a translation in JSON of each term for every indicated language
 
 Each term will be shown in different places of the company's web application, therefore, you MUST take into consideration the context where it operates for an accurate translation of each term.
 Each translated value should present your best translation for the given term in the target language. Set the 'flagged' property to true if you are unsure about this translation and it requires further validation. 
-Ensure translations are consistent and take into consideration the context where the term is used and the cultural context of the target language.
-Your translations need to take into account that the string '%s' is occasionally used as a placeholder to inject content dynamically, and must be placed appropriately according to the target language sentence structure.
-Most languages will use informal speech on websites, though for some languages (especially eastern european and baltic languages) it is appropriate to use formal speech. You must decide what is most appropriate and be consistent with this approach for the target language.
+Ensure translations are consistent and take into consideration the context where the term is used and the cultural context of the target language.`
+
+    if (updates.fillerWord) {
+        prompt += `\nYour translations need to take into account that the string '%s' is occasionally used as a placeholder to inject content dynamically, and must be placed appropriately according to the target language sentence structure.`
+    }
+
+    prompt += `\nMost languages will use informal speech on websites, though for some languages (especially eastern european and baltic languages) it is appropriate to use formal speech. You must decide what is most appropriate and be consistent with this approach for the target language.
 Not all terms may have a proper translation as some languages use English terms for tech terms.
 For every language, the amount of translated terms in your JSON response must match the amount of terms given in the request.
 
@@ -370,6 +375,11 @@ const validateKeys = (translatedLanguageData, updates: Updates): void => {
  * @param updates the provided update options
  */
 const main = (updates: Updates) => {
+    if (updates.fillerWord === undefined) {
+        // Indicates that terms in the language files may contain the placeholder '%s'
+        updates.fillerWord = true
+    }
+
     // 1. Find all valid files in cwd
     const languageFilePaths = getValidLanguageFiles(updates)
     // 2. Delete all the terms requested by the user

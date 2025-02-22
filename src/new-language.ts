@@ -28,6 +28,7 @@ interface Options {
     baseLanguage?: string
     validatedLanguages?: string[]
     modelTemperature?: number
+    fillerWord?: boolean
 }
 
 /**
@@ -156,14 +157,21 @@ If you are unsure about the context of a term or its translation and believe it 
         flagged: boolean
     }, ...
 }
-Ensure translations are consistent and take into consideration the context where the term is used and the cultural context of the target language. For instance, if you decide to translate a term as 'sign up', any related meanings need to maintain consistency and you should not switch to synonyms like 'register'. 
-Your translations need to take into account that the string '%s' is occasionally used as a placeholder to inject content dynamically, and must be placed appropriately according to the target language sentence structure.
-Most languages will use informal speech on websites, though for some languages (especially eastern european and baltic languages) it is appropriate to use formal speech. You must decide what is most appropriate and be consistent with this approach for the target language to feel as natural as possible.
+Ensure translations are consistent and take into consideration the context where the term is used and the cultural context of the target language. For instance, if you decide to translate a term as 'sign up', any related meanings need to maintain consistency and you should not switch to synonyms like 'register'.`
+
+    if (options.fillerWord) {
+        prompt += `\nYour translations need to take into account that the string '%s' is occasionally used as a placeholder to inject content dynamically, and must be placed appropriately according to the target language sentence structure.`
+    }
+
+    prompt += `\nMost languages will use informal speech on websites, though for some languages (especially eastern european and baltic languages) it is appropriate to use formal speech. You must decide what is most appropriate and be consistent with this approach for the target language to feel as natural as possible.
 Not all terms may have a proper translation as some languages use English terms for tech terms. For each term, you must consider the best translation for a web application in the target language.
 The amount of translated terms must always match the amount of terms given in the request.
 
 A request could look like the example below:
-Target Language: Italian
+Target Language: Italian`
+
+    if (options.fillerWord) {
+        prompt += `
 {
     "Clients": ["Clients", "Klanten", "Клиенты"],
     "Body of request": ["Body of request", "Inhoud van verzoek", "Текст сообщения"],
@@ -176,6 +184,20 @@ Assuming you are sure about each translation and they do not need to be flagged,
     "Body of request": "Messaggio",
     "Must be at least %s characters long": "Deve contenere minimo %s caratteri"
 }`
+    } else {
+        prompt += `
+{
+    "Clients": ["Clients", "Klanten", "Клиенты"],
+    "Body of request": ["Body of request", "Inhoud van verzoek", "Текст сообщения"]
+}
+
+Assuming you are sure about each translation and they do not need to be flagged, your response should look like the following:
+{
+    "Clients": "Clienti",
+    "Body of request": "Messaggio"
+}`
+    }
+
     return prompt
 }
 
